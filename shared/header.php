@@ -7,8 +7,6 @@
   <link rel="stylesheet" type="text/css" href="project.css" />
 
 <?php
-
-    
   if (isset($_SESSION['username'])) {
     //<p class="header_links">
       echo '<a href="index.php"><button>Home</button></a> ';

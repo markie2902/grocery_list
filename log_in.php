@@ -1,16 +1,21 @@
 <?php
 
-require_once ('lib/user_utils.php');
-
 session_start();
 
+require_once ('lib/user_utils.php');
+
 if (isset($_POST['submit']) && $_POST['submit'] == 'Log In') {
-  
-  usersLogin();
-  
+  $username = (isset($_POST['username'])) ? $_POST['username'] : "";
+  $password = (isset($_POST['password'])) ? $_POST['password'] : "";
+  $message = usersLogin($username, $password, $_SESSION);
+
 } else if(isset($_POST['submit']) && $_POST['submit'] == 'Create') {
-  
-  usersCreateAccount();
+  $username = (isset($_POST['username'])) ? $_POST['username'] : "";
+  $password = (isset($_POST['password'])) ? $_POST['password'] : "";
+  $repeat_password= (isset($_POST['repeat_password'])) ? $_POST['repeat_password'] : "";
+  $email = (isset($_POST['email'])) ? $_POST['email'] : "";
+  $message = usersCreateAccount($username, $password, $repeat_password, $email, $_SESSION); 
+  echo $message;
 }
 
 ?>
