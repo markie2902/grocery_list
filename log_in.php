@@ -8,6 +8,7 @@ if (isset($_POST['submit']) && $_POST['submit'] == 'Log In') {
   $username = (isset($_POST['username'])) ? $_POST['username'] : "";
   $password = (isset($_POST['password'])) ? $_POST['password'] : "";
   $message = usersLogin($username, $password, $_SESSION);
+  echo $message;
 
 } else if(isset($_POST['submit']) && $_POST['submit'] == 'Create') {
   $username = (isset($_POST['username'])) ? $_POST['username'] : "";
