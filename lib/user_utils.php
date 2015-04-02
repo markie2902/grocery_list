@@ -18,8 +18,9 @@ function usersLogin($username, $password, &$session) {
     if (mysqli_num_rows($data) == 1) {
       $row = mysqli_fetch_array($data);
       $session["username"] = $row['username'];
+  //    $session["username"] = $data[0]['username'];
       //header('Location: ' . 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/index.php');
-      echo '<p>You are logged in as ' . $session['username'] . '.</p>';
+      echo '<p>Hi there, ' . $session['username'] . '. Please feel free to look around or update your status. Enjoy!</p>';
     } else {
       $error_msg = 'Sorry, unable to find your username or password.';
     }
@@ -28,7 +29,10 @@ function usersLogin($username, $password, &$session) {
   return $message;
 }
 
-  function usersCreateAccount($username, $password, $repeat_password, $email, &$session){
+//$message = usersLogin()
+//var_dump($message)
+
+function usersCreateAccount($username, $password, $repeat_password, $email, &$session){
     $dbc = mysqli_connect('127.0.0.1', 'markie2902', 'burlbus952', grocery_list) or die ('Error, could not connect to Database.');
 
     $message = "";  
@@ -52,7 +56,7 @@ function usersLogin($username, $password, &$session) {
         if (mysqli_num_rows($data2)==0){
           $query = "INSERT INTO create_account (username, password, repeat_password, email) VALUES "."('$user_username', '$user_password', '$user_repeat_password', '$user_email')";
           mysqli_query($dbc, $query);
-          echo 'You have successfully created an account, enjoy!';
+          echo 'You have successfully created an account, you may now create your profile. Enjoy!';
           mysqli_close($dbc);
           $session['username'] = $user_username;
 

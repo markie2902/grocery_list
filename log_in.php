@@ -18,8 +18,6 @@ if (isset($_POST['submit']) && $_POST['submit'] == 'Log In') {
   echo $message;
 }
 
-?>
-<?php
   require_once ('shared/header.php');
 ?>   
 <div id="forms">
@@ -31,7 +29,7 @@ if (isset($_POST['submit']) && $_POST['submit'] == 'Log In') {
         Password:<br>
         <input type="password" name="password" value="">
         <br>
-        Repeat Password<br>
+        Repeat Password:<br>
         <input type="password" name="repeat_password" value="">
         <br>
         Email:<br>
@@ -55,3 +53,4 @@ if (isset($_POST['submit']) && $_POST['submit'] == 'Log In') {
 
 <?php
   require_once ('shared/footer.php');
+?>

@@ -8,23 +8,33 @@
 
 <?php
   if (isset($_SESSION['username'])) {
-    //<p class="header_links">
-      echo '<a href="index.php"><button>Home</button></a> ';
-      echo '<a href="contact.php"><button>Contact</button></a> ';
-      echo '<a href="about.php"><button>About</button></a> ';
-      echo '<a href="logout.php"><button>Log out</button></a> ';
-   //</p>
-  }
-   else {
-    //<p class="header_links">;
-      echo '<a href="index.php"><button>Home</button></a> ';
-      echo '<a href="contact.php"><button>Contact</button></a> ';
-      echo '<a href="about.php"><button>About</button></a> ';
-      echo '<a href="log_in.php"><button>Log In</button></a> ';
-    //</p>
-  }
-  echo '<h1>The Project</h1> ';
-
-echo '<hr>';
 ?>
+     <p class="header_links">
+      <a href="index.php"><button>Home</button></a>
+      <a href="profile.php"><button>My Profile</button></a>
+      <a href="about.php"><button>About</button></a>
+      <a href="logout.php"><button>Log out</button></a>
+      </br>
+    </p>
+<?php
+  }
+  else {
+?>
+    <p class="header_links">    
+      <a href="index.php"><button>Home</button></a>
+      <a href="profile.php"><button>My Profile</button></a>
+      <a href="about.php"><button>About</button></a>
+      <a href="log_in.php"><button>Log In</button></a>
+    </p>
+<?php  
+  }
+  echo '<h1>Kitchie the kitchen assistant</h1> ';
+
+//echo '<hr>';
+?>
+<div class ="hr">
+<hr>
+</div>
+
+
 
