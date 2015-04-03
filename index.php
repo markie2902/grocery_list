@@ -1,5 +1,6 @@
 <?php   
-        require_once ('shared/header.php');
+  session_start();
+  require_once ('shared/header.php');
  ?>
 <body>
 	<p class="awesome"><b>Super Awesome<br>
