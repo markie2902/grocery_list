@@ -54,7 +54,7 @@ function usersCreateAccount($username, $password, $repeat_password, $email, &$se
             echo 'You have successfully created an account, you may now create your profile. Enjoy!';
           mysqli_close($dbc);
           $session['username'] = $user_username;
-          } 
+          }
         } else {
             $error_msg = 'An account with this email already exists, please use a different email.';
             $user_email = "";
@@ -65,9 +65,9 @@ function usersCreateAccount($username, $password, $repeat_password, $email, &$se
           }
       } else {
           $error_msg = '<p>Please enter all information</p>';
-        }  
-  $message = '<p>' . $error_msg . '</p>';
-  return $message;        
+    }  
+    $message = '<p>' . $error_msg . '</p>';
+    return $message;        
 }
 ?>
 

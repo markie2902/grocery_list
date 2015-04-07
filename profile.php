@@ -16,7 +16,9 @@
       echo updateProfile($firstname, $lastname, $gender, $birthdate, $city, $state, $country, $zipcode, $_SESSION);
     }
   } else {
-     header('Location: ' . 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/log_in.php');
+      echo 'To proceed, you need to log in or create an account';
+      echo '<META HTTP-EQUIV="Refresh" Content="5; URL=http://localhost/grocery_list/log_in.php">'; 
+      //header('Location: ' . 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/log_in.php');
     }
   require_once ('shared/header.php');
 ?>

@@ -15,16 +15,19 @@
       $user_zipcode = mysqli_real_escape_string($dbc, trim($zipcode));
       $error = false;
       
-      $query = "UPDATE create_account SET first_name = '$user_firstname', last_name = '$user_lastname', gender = '$user_gender', birthdate = '$user_birthdate', city = '$user_city', state = '$user_state', country = '$user_country', zipcode = '$user_zip_code' WHERE username = '" . $session['username'] . "'";
+      $query = "UPDATE create_account SET first_name = '$user_firstname', last_name = '$user_lastname', gender = '$user_gender', birthdate = '$user_birthdate', city = '$user_city', state = '$user_state', country = '$user_country', zipcode = '$user_zipcode' WHERE username = '" . $session['username'] . "'";
     
       mysqli_query($dbc, $query);
         echo '<p>Your profile has been successfully updated.</p>';
-    } else {
+  
+  mysqli_close($dbc);
+
+} else {
     $query = "SELECT first_name, last_name, gender, birthdate, city, state, country, zipcode FROM create_account WHERE username = '" . $session['username'] . "'";
     $data = mysqli_query($dbc, $query);
     $row = mysqli_fetch_array($data);
 
-    if ($row == NULL){
+    if ($row != NULL){
       $user_firstname = $row['first_name'];
       $user_lastname = $row['last_name'];
       $user_gender = $row['gender'];
@@ -33,12 +36,12 @@
       $user_state = $row['state'];
       $user_country = $row['country'];
       $user_zipcode = $row['zipcode'];
-        echo '<p>You have successfully updated your profile.</p>';
     } else {
       echo '<p>There was a problem accessing your profile.</p>';
       }
-    }
+
   mysqli_close($dbc);
   return $message;  
+}
 }
 ?>
