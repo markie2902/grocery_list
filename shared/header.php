@@ -22,6 +22,7 @@
 ?>
     <p class="header_links">    
       <a href="index.php"><button>Home</button></a>
+      <a href="viewprofile.php"><button>My Profile</button></a>
       <a href="about.php"><button>About</button></a>
       <a href="log_in.php"><button>Log In</button></a>
     </p>

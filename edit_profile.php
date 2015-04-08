@@ -16,7 +16,6 @@
       echo updateProfile($firstname, $lastname, $gender, $birthdate, $city, $state, $country, $zipcode, $_SESSION);
     }
   } else {
-      //$Login = $_GET['Log in first'];
       header('Location: ' . 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/log_in.php');
  }
 

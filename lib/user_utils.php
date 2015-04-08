@@ -17,9 +17,9 @@ function usersLogin($username, $password, &$session) {
     if (mysqli_num_rows($data) == 1) {
       $row = mysqli_fetch_array($data);
       $session["username"] = $row['username'];
-  //    $session["username"] = $data[0]['username'];
-      //header('Location: ' . 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/index.php');
-      echo '<p>Hi there, ' . $session['username'] . '. Please feel free to look around or update your status. Enjoy!</p>';
+      $name = $_GET['$username'];
+      header('Location: ' . 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/viewprofile.php?dsfsdf');
+      //echo '<p>Hi there, ' . $session['username'] . '. Please feel free to look around or update your status. Enjoy!</p>';
     } else {
       $error_msg = 'Sorry, unable to find your username or password.';
     }
@@ -70,4 +70,3 @@ function usersCreateAccount($username, $password, $repeat_password, $email, &$se
     return $message;        
 }
 ?>
-

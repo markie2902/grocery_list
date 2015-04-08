@@ -3,12 +3,12 @@
   session_start();
 
 
-  require_once('lib/user_profile.php');
-  require_once('shared/header.php');
+  //require_once('lib/user_profile.php');
+  //require_once('shared/header.php');
 
    if (isset($_SESSION['username'])) {
     echo '<p>Hello, '. $_SESSION['username'] .' ! You can start by editing your profile.</p>';
-  }
+
   $dbc = mysqli_connect('127.0.0.1', 'markie2902', 'burlbus952', 'grocery_list');
 
   if (!isset($_GET['username'])) {
@@ -16,6 +16,12 @@
   } else {
       $query = "SELECT username, first_name, last_name, gender, birthdate, city, state, country, zipcode FROM create_account WHERE username = '" . $_GET['username'] . "'";
     }
+  } else {
+    header('Location: ' . 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/log_in.php');
+    }
+
+  require_once('lib/user_profile.php');
+  require_once('shared/header.php');
 
   $data = mysqli_query($dbc, $query);
 
@@ -50,6 +56,6 @@
   } else {
       echo '<p class="error">There was a problem accessing your profile.</p>';
     }
- echo '<p> Please <a href="edit_profile.php">click this</a> edit your profile.</p>';
+ echo '<p> Please <a href="edit_profile.php">click this</a> to edit your profile.</p>';
   mysqli_close($dbc);
 ?>
