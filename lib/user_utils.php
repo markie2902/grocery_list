@@ -1,6 +1,6 @@
 <?php
 
-function usersLogin($username, $password, &$session) {
+function usersLogin($username, $password, &$session, $r) {
   $dbc = mysqli_connect('127.0.0.1', 'markie2902', 'burlbus952', 'grocery_list') or die ('Error, could not connect to Database.');
   $message = "";
   
@@ -17,8 +17,8 @@ function usersLogin($username, $password, &$session) {
     if (mysqli_num_rows($data) == 1) {
       $row = mysqli_fetch_array($data);
       $session["username"] = $row['username'];
-      $name = $_GET['$username'];
-      header('Location: ' . 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/viewprofile.php?dsfsdf');
+      header("Location: $r");
+      //header('Location: ' . 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/viewprofile.php');
       //echo '<p>Hi there, ' . $session['username'] . '. Please feel free to look around or update your status. Enjoy!</p>';
     } else {
       $error_msg = 'Sorry, unable to find your username or password.';

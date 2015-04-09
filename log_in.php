@@ -1,13 +1,14 @@
 <?php
 
 session_start();
-
+var_dump($_GET);
 require_once ('lib/user_utils.php');
 
 if (isset($_POST['submit']) && $_POST['submit'] == 'Log In') {
   $username = (isset($_POST['username'])) ? $_POST['username'] : "";
   $password = (isset($_POST['password'])) ? $_POST['password'] : "";
-  $message = usersLogin($username, $password, $_SESSION);
+  $redirect = urldecode($_GET["redirect"]);
+  $message = usersLogin($username, $password, $_SESSION, $redirect);
   echo $message;
 
 } else if(isset($_POST['submit']) && $_POST['submit'] == 'Create') {

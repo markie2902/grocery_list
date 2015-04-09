@@ -16,7 +16,9 @@
       echo updateProfile($firstname, $lastname, $gender, $birthdate, $city, $state, $country, $zipcode, $_SESSION);
     }
   } else {
-      header('Location: ' . 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/log_in.php');
+      $redirect = urlencode("http://" . $_SERVER["HTTP_HOST"] . dirname($_SERVER["PHP_SELF"]) . "/edit_profile.php");
+
+      header('Location: ' . 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . "/log_in.php?redirect=$redirect");
  }
 
 $dbc = mysqli_connect('127.0.0.1', 'markie2902', 'burlbus952', 'grocery_list') or die ('Error, could not connect to Database.');
