@@ -17,9 +17,6 @@ function usersLogin($username, $password, &$session, $r) {
     if (mysqli_num_rows($data) == 1) {
       $row = mysqli_fetch_array($data);
       $session["username"] = $row['username'];
-      header("Location: $r");
-      //header('Location: ' . 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . '/viewprofile.php');
-      //echo '<p>Hi there, ' . $session['username'] . '. Please feel free to look around or update your status. Enjoy!</p>';
     } else {
       $error_msg = 'Sorry, unable to find your username or password.';
     }

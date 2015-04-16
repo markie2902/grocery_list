@@ -14,12 +14,16 @@
       $country = (isset($_POST['country'])) ? $_POST['country'] : "";
       $zipcode = (isset($_POST['zipcode'])) ? $_POST['zipcode'] : "";
       echo updateProfile($firstname, $lastname, $gender, $birthdate, $city, $state, $country, $zipcode, $_SESSION);
+      if(isset($_GET["redirect"])){
+      } else{  
+          $url =  "http://" . $_SERVER["HTTP_HOST"] . dirname($_SERVER["PHP_SELF"]) . "/viewprofile.php";
+          $user_redirect = urlencode("http://" . $_SERVER["HTTP_HOST"] . dirname($_SERVER["PHP_SELF"]) . "/viewprofile.php");
+          header("Location: $url?redirect=$user_redirect");
+      }
     }
   } else {
-      $redirect = urlencode("http://" . $_SERVER["HTTP_HOST"] . dirname($_SERVER["PHP_SELF"]) . "/edit_profile.php");
-
-      header('Location: ' . 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . "/log_in.php?redirect=$redirect");
- }
+    echo redirectUser();
+    }
 
 $dbc = mysqli_connect('127.0.0.1', 'markie2902', 'burlbus952', 'grocery_list') or die ('Error, could not connect to Database.');
 
@@ -46,7 +50,6 @@ $dbc = mysqli_connect('127.0.0.1', 'markie2902', 'burlbus952', 'grocery_list') o
 
   <fieldset>
   <legend>Edit Profile</legend>
-  <!---<form method = "post" action="profile.php">--->
   <form enctype="multipart/form-data" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
 
       First Name:<br>

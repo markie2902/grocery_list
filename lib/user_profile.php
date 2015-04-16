@@ -44,4 +44,10 @@
   return $message;  
 }
 }
+
+  function redirectUser(){
+    $redirect = urlencode("http://" . $_SERVER["HTTP_HOST"] . dirname($_SERVER["PHP_SELF"]) . "/viewprofile.php");
+
+      header('Location: ' . 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . "/log_in.php?redirect=$redirect");
+}
 ?>
