@@ -46,8 +46,8 @@
 }
 
   function redirectUser(){
-    $redirect = urlencode("http://" . $_SERVER["HTTP_HOST"] . dirname($_SERVER["PHP_SELF"]) . "/viewprofile.php");
+    $redirect = urlencode("http://" . $_SERVER["HTTP_HOST"] . "/../profile/index.php");
 
-      header('Location: ' . 'http://' . $_SERVER['HTTP_HOST'] . dirname($_SERVER['PHP_SELF']) . "/log_in.php?redirect=$redirect");
+      header('Location: ' . 'http://' . $_SERVER['HTTP_HOST'] . "/log_in.php?redirect=$redirect");
 }
 ?>
