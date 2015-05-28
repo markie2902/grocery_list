@@ -1,9 +1,20 @@
 <?php
+  
+  require_once ("database.php");
+
 
 function usersLogin($username, $password, &$session, $r) {
+  $database = new Database();
+  $clean_username = $database->clean($username);
+  $clean_password = $database->clean($password);
+  $user_record = $database->getRecord("SELECT * FROM create_account WHERE username = '$clean_username' AND password = '$clean_password' ");
+
+  // error_log($user_record['username']) 
+ 
   $dbc = mysqli_connect('127.0.0.1', 'markie2902', 'burlbus952', 'grocery_list') or die ('Error, could not connect to Database.');
   $message = "";
-  
+  $error_msg = "";
+ 
   if(empty($username)) {
     echo 'Sorry, you must enter your username to log in.';
   } else if(empty($password)) {
@@ -29,6 +40,8 @@ function usersCreateAccount($username, $password, $repeat_password, $email, &$se
     $dbc = mysqli_connect('127.0.0.1', 'markie2902', 'burlbus952', 'grocery_list') or die ('Error, could not connect to Database.');
 
     $message = "";  
+    $error_msg = "";
+ 
     $user_username = mysqli_real_escape_string($dbc,trim($username));
     $user_password = mysqli_real_escape_string($dbc, trim($password));
     $user_repeat_password = mysqli_real_escape_string($dbc, trim($repeat_password));
