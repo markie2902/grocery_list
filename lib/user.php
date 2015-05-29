@@ -4,13 +4,14 @@ require_once("database.php");
 
 class User {
   
+  private $id;
   private $username;
   private $password;
   private $repeat_password;
   private $email;
   private $join_date;
   private $first_name;
-  private $last_niame;
+  private $last_name;
   private $gender;
   private $birthdate;
   private $city;
@@ -18,13 +19,20 @@ class User {
   private $country;
   private $zipcode;
 
+  function getID() {
+    return $id;
+  }
+
+  function setID($id) {
+    $this->id = $id;
+  }
 
   function getUsername() {
     return $username;
   } 
 
   function setUsername($username) {
-    $this->$username = $username;
+    $this->username = $username;
   }
 
   function getPassword() {
@@ -32,7 +40,7 @@ class User {
   }
 
   function setPassword($password) {
-    $this->$password = $password;
+    $this->password = $password;
   }
 
   function getRepeatPassword() {
@@ -40,7 +48,7 @@ class User {
   }  
 
   function setRepeatPassword($repeat_password) {
-    $this->$repeat_password = $repeat_password;
+    $this->repeat_password = $repeat_password;
   }
 
   function getEmail() {
@@ -48,14 +56,14 @@ class User {
   }   
 
   function setEmail($email) {
-    $this->$email = $email;
+    $this->email = $email;
   }
   function getJoinDate() {
     return $join_date;
   }   
 
   function setJoinDate($join_date) {
-    $this->$join_date = $join_date;
+    $this->join_date = $join_date;
   }
 
   function getFirstName() {
@@ -63,7 +71,7 @@ class User {
   }   
 
   function setFirstName($first_name) {
-    $this->$first_name = $first_name;
+    $this->first_name = $first_name;
   }
 
   function getLastName() {
@@ -71,7 +79,7 @@ class User {
   }   
 
   function setLastName($last_name) {
-    $this->$last_name = $last_name;
+    $this->last_name = $last_name;
   }
 
   function getGender() {
@@ -79,7 +87,7 @@ class User {
   }   
 
   function setGender($gender) {
-    $this->$gender = $gender;
+    $this->gender = $gender;
   }
 
   function getBirthdate() {
@@ -87,7 +95,7 @@ class User {
   }
 
   function setBirthdate($birthdate) {
-    $this->$birthdate = $birthdate;
+    $this->birthdate = $birthdate;
   }  
 
   function getCity() {
@@ -95,7 +103,7 @@ class User {
   }
 
   function setCity($city) {
-    $this->$city = $city;
+    $this->city = $city;
   }
 
   function getState() {
@@ -103,7 +111,7 @@ class User {
   }
 
   function setState($state) {
-    $this->$state = $state;
+    $this->state = $state;
   }
 
   function getCountry() {
@@ -111,7 +119,7 @@ class User {
   }
 
   function setCountry($country) {
-    $this->$country = $country;
+    $this->country = $country;
   }
 
   function getZipcode() {
@@ -119,7 +127,7 @@ class User {
   }
 
   function setZipcode($zipcode) {
-    $this->$zipcode = $zipcode;
+    $this->zipcode = $zipcode;
   }
 
   //private function clean($str) {
@@ -129,14 +137,45 @@ class User {
 
   public static function load($username, $password) {
     $database = new Database();
-    $user_record = $database->getRecord("SELECT * FROM create_account WHERE username = '$username' AND password = '$password' ");
+    $clean_username = $database->clean($username);
+    $clean_password = $database->clean($password);
+    $user_record = $database->getRecord("SELECT * FROM create_account WHERE username = '$clean_username' AND password = '$clean_password' ");
+
     $user = new User();
+    $user->setID($user_record["id"]);
     $user->setUsername($user_record["username"]);
+    $user->setPassword($user_record["password"]);
+    $user->setRepeatPassword($user_record["repeat_password"]);
+    $user->setEmail($user_record["email"]);
+    $user->setFirstName($user_record["first_name"]);
+    $user->setLastName($user_record["last_name"]);
+    $user->setGender($user_record["gender"]);
+    $user->setBirthdate($user_record["birthdate"]);
+    $user->setCity($user_record["city"]);
+    $user->setState($user_record["state"]);
+    $user->setCountry($user_record["country"]);
+    $user->setZipcode($user_record["zipcode"]);
     return $user; 
   }
-}
 
-//error_log("hi");
-$user = User::load("markie2902", "ethan");
-var_dump($user);
-error_log(var_dump($user));
+  public static function loadID($id) {
+    $database = new Database();
+    $user_record = $database->getRecord("SELECT * FROM create_account WHERE id = '$id'");
+    
+    $user = new User();
+    $user->setID($user_record["id"]);
+    $user->setUsername($user_record["username"]);
+    $user->setPassword($user_record["password"]);
+    $user->setRepeatPassword($user_record["repeat_password"]);
+    $user->setEmail($user_record["email"]);
+    $user->setFirstName($user_record["first_name"]);
+    $user->setLastName($user_record["last_name"]);
+    $user->setGender($user_record["gender"]);
+    $user->setBirthdate($user_record["birthdate"]);
+    $user->setCity($user_record["city"]);
+    $user->setState($user_record["state"]);
+    $user->setCountry($user_record["country"]);
+    $user->setZipcode($user_record["zipcode"]);
+    return $user;
+  }
+}
