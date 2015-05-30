@@ -129,11 +129,35 @@ class User {
   function setZipcode($zipcode) {
     $this->zipcode = $zipcode;
   }
+  
+  public function login(&$session) {
+    $session["id"] = getID();
+  }
 
-  //private function clean($str) {
-    //$this->$str = mysqli_real_escape_string($dbc, trim($str));
-    //return $str;
-  //} 
+  public function save() {
+    $validation_result = validate();
+    if ($validation_result["valid"]) {
+      $database = new Database();
+      $clean_username = $database->clean($username);
+      $clean_password = $database->clean($password);
+      $clean_repeat_password = $database->clean($repeat_password);
+      $clean_email = $database->clean($email);
+
+      $query = "INSERT INTO create_account (username, password, repeat_password, email) VALUES ('$clean_username', '$clean_password', '$clean_repeat_password', '$clean_email'";
+      $database->insert($query);
+
+    } else {
+      return $validation_result;
+    }
+  }
+
+  private function validate() {
+    if(password !== repeat_password){
+      return array("valid" => false, "message" => "no idea"); 
+    } else {
+      return array("valid" => true, "message" => ""); 
+    }
+  }
 
   public static function load($username, $password) {
     $database = new Database();
@@ -141,41 +165,49 @@ class User {
     $clean_password = $database->clean($password);
     $user_record = $database->getRecord("SELECT * FROM create_account WHERE username = '$clean_username' AND password = '$clean_password' ");
 
-    $user = new User();
-    $user->setID($user_record["id"]);
-    $user->setUsername($user_record["username"]);
-    $user->setPassword($user_record["password"]);
-    $user->setRepeatPassword($user_record["repeat_password"]);
-    $user->setEmail($user_record["email"]);
-    $user->setFirstName($user_record["first_name"]);
-    $user->setLastName($user_record["last_name"]);
-    $user->setGender($user_record["gender"]);
-    $user->setBirthdate($user_record["birthdate"]);
-    $user->setCity($user_record["city"]);
-    $user->setState($user_record["state"]);
-    $user->setCountry($user_record["country"]);
-    $user->setZipcode($user_record["zipcode"]);
-    return $user; 
+    if($user_record == null) {
+      return null;
+    } else {
+      $user = new User();
+      $user->setID($user_record["id"]);
+      $user->setUsername($user_record["username"]);
+      $user->setPassword($user_record["password"]);
+      $user->setRepeatPassword($user_record["repeat_password"]);
+      $user->setEmail($user_record["email"]);
+      $user->setFirstName($user_record["first_name"]);
+      $user->setLastName($user_record["last_name"]);
+      $user->setGender($user_record["gender"]);
+      $user->setBirthdate($user_record["birthdate"]);
+      $user->setCity($user_record["city"]);
+      $user->setState($user_record["state"]);
+      $user->setCountry($user_record["country"]);
+      $user->setZipcode($user_record["zipcode"]);
+      return $user; 
+    }
   }
 
   public static function loadID($id) {
     $database = new Database();
     $user_record = $database->getRecord("SELECT * FROM create_account WHERE id = '$id'");
-    
-    $user = new User();
-    $user->setID($user_record["id"]);
-    $user->setUsername($user_record["username"]);
-    $user->setPassword($user_record["password"]);
-    $user->setRepeatPassword($user_record["repeat_password"]);
-    $user->setEmail($user_record["email"]);
-    $user->setFirstName($user_record["first_name"]);
-    $user->setLastName($user_record["last_name"]);
-    $user->setGender($user_record["gender"]);
-    $user->setBirthdate($user_record["birthdate"]);
-    $user->setCity($user_record["city"]);
-    $user->setState($user_record["state"]);
-    $user->setCountry($user_record["country"]);
-    $user->setZipcode($user_record["zipcode"]);
-    return $user;
+      
+    if($user_record == null) {
+      return null;
+    } else {
+      $user = new User();
+      $user->setID($user_record["id"]);
+      $user->setUsername($user_record["username"]);
+      $user->setPassword($user_record["password"]);
+      $user->setRepeatPassword($user_record["repeat_password"]);
+      $user->setEmail($user_record["email"]);
+      $user->setFirstName($user_record["first_name"]);
+      $user->setLastName($user_record["last_name"]);
+      $user->setGender($user_record["gender"]);
+      $user->setBirthdate($user_record["birthdate"]);
+      $user->setCity($user_record["city"]);
+      $user->setState($user_record["state"]);
+      $user->setCountry($user_record["country"]);
+      $user->setZipcode($user_record["zipcode"]);
+      return $user;
+    }
   }
 }

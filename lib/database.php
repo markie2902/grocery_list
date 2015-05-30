@@ -7,14 +7,21 @@ class Database {
     return mysqli_real_escape_string($dbc, trim($str));
   }
 
-  public function getRecord($query){
+  public function getRecord($query) {
     $dbc = mysqli_connect('127.0.0.1', 'markie2902', 'burlbus952', 'grocery_list') or die ('Error, could not connect to Database.');
     $data = mysqli_query($dbc, $query);
-    if (mysqli_num_rows($data) == 1) {
-      
+
+    if (mysqli_num_rows($data) > 1) {
+      error_log("data does not exist");
+      return null;
+
+    } else if (mysqli_num_rows($data) == 1) {  
       $row = mysqli_fetch_assoc($data);
-      //error_log(print_r($row, true));
       return $row;  
+
+    } else {
+      error_log("data does not exist");
+      return null;
     } 
   }
   
@@ -25,6 +32,4 @@ class Database {
   public function insertRecord($query){
     $dbc = mysqli_connect('127.0.0.1', 'markie2902', 'burlbus952', 'grocery_list') or die ('Error, could not connect to Database.');
   }
-
-
 } 
