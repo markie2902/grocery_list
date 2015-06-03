@@ -20,7 +20,7 @@ class User {
   private $zipcode;
 
   function getID() {
-    return $id;
+    return $this->id;
   }
 
   function setID($id) {
@@ -28,7 +28,7 @@ class User {
   }
 
   function getUsername() {
-    return $username;
+    return $this->username;
   } 
 
   function setUsername($username) {
@@ -36,7 +36,7 @@ class User {
   }
 
   function getPassword() {
-    return $password;
+    return $this->password;
   }
 
   function setPassword($password) {
@@ -44,7 +44,7 @@ class User {
   }
 
   function getRepeatPassword() {
-    return $repeat_password;
+    return $this->repeat_password;
   }  
 
   function setRepeatPassword($repeat_password) {
@@ -52,14 +52,14 @@ class User {
   }
 
   function getEmail() {
-    return $email;
+    return $this->email;
   }   
 
   function setEmail($email) {
     $this->email = $email;
   }
   function getJoinDate() {
-    return $join_date;
+    return $this->join_date;
   }   
 
   function setJoinDate($join_date) {
@@ -67,7 +67,7 @@ class User {
   }
 
   function getFirstName() {
-    return $first_name;
+    return $this->first_name;
   }   
 
   function setFirstName($first_name) {
@@ -75,7 +75,7 @@ class User {
   }
 
   function getLastName() {
-    return $last_name;
+    return $this->last_name;
   }   
 
   function setLastName($last_name) {
@@ -83,7 +83,7 @@ class User {
   }
 
   function getGender() {
-    return $gender;
+    return $this->gender;
   }   
 
   function setGender($gender) {
@@ -91,7 +91,7 @@ class User {
   }
 
   function getBirthdate() {
-    return $birthdate;
+    return $this->birthdate;
   }
 
   function setBirthdate($birthdate) {
@@ -99,7 +99,7 @@ class User {
   }  
 
   function getCity() {
-    return $city;
+    return $this->city;
   }
 
   function setCity($city) {
@@ -107,7 +107,7 @@ class User {
   }
 
   function getState() {
-    return $state;
+    return $this->state;
   }
 
   function setState($state) {
@@ -115,7 +115,7 @@ class User {
   }
 
   function getCountry() {
-    return $country;
+    return $this->country;
   }
 
   function setCountry($country) {
@@ -123,7 +123,7 @@ class User {
   }
 
   function getZipcode() {
-    return $zipcode;
+    return $this->zipcode;
   }
 
   function setZipcode($zipcode) {
@@ -131,29 +131,44 @@ class User {
   }
   
   public function login(&$session) {
-    $session["id"] = getID();
+    $session["id"] = $this->getID();
   }
 
-  public function save() {
-    $validation_result = validate();
+  private function save() {
+    $validation_result = $this->validate();
     if ($validation_result["valid"]) {
       $database = new Database();
-      $clean_username = $database->clean($username);
-      $clean_password = $database->clean($password);
-      $clean_repeat_password = $database->clean($repeat_password);
-      $clean_email = $database->clean($email);
+      $clean_username = $database->clean($this->username);
+      $clean_password = $database->clean($this->password);
+      $clean_repeat_password = $database->clean($this->repeat_password);
+      $clean_email = $database->clean($this->email);
 
-      $query = "INSERT INTO create_account (username, password, repeat_password, email) VALUES ('$clean_username', '$clean_password', '$clean_repeat_password', '$clean_email'";
-      $database->insert($query);
-
+      $userfromUsername = User::loadfromUsername($clean_username);
+      $userfromEmail = User::loadfromEmail($clean_email);
+      
+      if ($userfromUsername != null) {
+        return array("valid" => false, "message" => "Username already in use");
+      
+      } else if ($userfromEmail != null) {
+        return array("valid" => false, "message" => "Email is already in use");
+      
+      } else { 
+        $query = "" .
+          "INSERT INTO create_account " .
+          "   (username, password, repeat_password, email) " .
+          "VALUES " .
+          "   ('$clean_username', '$clean_password', '$clean_repeat_password', '$clean_email')";
+        $database->insertRecord($query);
+        return array("valid" => true, "message" => "You have now created an account");
+      }
     } else {
       return $validation_result;
     }
   }
-
+  
   private function validate() {
-    if(password !== repeat_password){
-      return array("valid" => false, "message" => "no idea"); 
+    if($this->password !== $this->repeat_password){
+      return array("valid" => false, "message" => "Passwords do not match"); 
     } else {
       return array("valid" => true, "message" => ""); 
     }
@@ -186,7 +201,7 @@ class User {
     }
   }
 
-  public static function loadID($id) {
+  public static function loadfromID($id) {
     $database = new Database();
     $user_record = $database->getRecord("SELECT * FROM create_account WHERE id = '$id'");
       
@@ -210,4 +225,66 @@ class User {
       return $user;
     }
   }
+
+    public static function loadfromUsername($username) {
+      $database = new Database();
+      $clean_username = $database->clean($username);
+      $user_record = $database->getRecord("SELECT * FROM create_account WHERE username = '$clean_username'");
+
+      if($user_record == null) {
+        return null;
+      } else {
+        $user = new User();
+        $user->setID($user_record["id"]);
+        $user->setUsername($user_record["username"]);
+        $user->setPassword($user_record["password"]);
+        $user->setRepeatPassword($user_record["repeat_password"]);
+        $user->setEmail($user_record["email"]);
+        $user->setFirstName($user_record["first_name"]);
+        $user->setLastName($user_record["last_name"]);
+        $user->setGender($user_record["gender"]);
+        $user->setBirthdate($user_record["birthdate"]);
+        $user->setCity($user_record["city"]);
+        $user->setState($user_record["state"]);
+        $user->setCountry($user_record["country"]);
+        $user->setZipcode($user_record["zipcode"]);
+        return $user;
+      }
+    }
+
+    public static function loadfromEmail($email) {
+      $database = new Database();
+      $clean_email = $database->clean($email);
+      $user_record = $database->getRecord("SELECT * FROM create_account WHERE email = '$clean_email'");
+  
+    if($user_record == null) {
+      return null;
+    } else {
+      $user = new User();
+      $user->setID($user_record["id"]);
+      $user->setUsername($user_record["username"]);
+      $user->setPassword($user_record["password"]);
+      $user->setRepeatPassword($user_record["repeat_password"]);
+      $user->setEmail($user_record["email"]);
+      $user->setFirstName($user_record["first_name"]);
+      $user->setLastName($user_record["last_name"]);
+      $user->setGender($user_record["gender"]);
+      $user->setBirthdate($user_record["birthdate"]);
+      $user->setCity($user_record["city"]);
+      $user->setState($user_record["state"]);
+      $user->setCountry($user_record["country"]);
+      $user->setZipcode($user_record["zipcode"]);
+      return $user;
+    }
+  }
+
+    public static function createNewAccount($username, $password, $repeat_password, $email) {
+      $user = new User();
+      $user->setUsername($username);
+      $user->setPassword($password);
+      $user->setRepeatPassword($repeat_password);
+      $user->setEmail($email);
+      $results = $user->save();
+      return $results;
+    }    
 }

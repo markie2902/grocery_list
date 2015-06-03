@@ -1,6 +1,7 @@
 <?php
 
 require_once ("../lib/user.php");
+require_once ("../lib/utils.php");
 
 session_start();
 
@@ -8,6 +9,9 @@ if (isset($_POST["submit"]) && $_POST["submit"] == "Log In") {
   $username = (isset($_POST["username"])) ? $_POST["username"] : "";
   $password = (isset($_POST["password"])) ? $_POST["password"] : "";
   $redirect = urldecode(isset($_GET["redirect"]));
+  
+  //$params = User::accountSetup("$_POST", "username", "password", "$_GET", "redirect");
+
   $user = User::load($username, $password);
 
   if($user == null) {
@@ -24,19 +28,10 @@ if (isset($_POST["submit"]) && $_POST["submit"] == "Log In") {
     }
   }
 } else if(isset($_POST["submit"]) && $_POST["submit"] == "Create") {
-  $username = (isset($_POST["username"])) ? $_POST["username"] : "";
-  $password = (isset($_POST["password"])) ? $_POST["password"] : "";
-  $repeat_password= (isset($_POST["repeat_password"])) ? $_POST["repeat_password"] : "";
-  $email = (isset($_POST["email"])) ? $_POST["email"] : "";
+  $values = Utils::cleanArray($_POST, array("username", "password", "repeat_password", "email"), "");
+  $results = User::createNewAccount($values["username"], $values["password"], $values["repeat_password"], $values["email"]);
 
-  $user = new User();
-  $user->setUsername($username);
-  $user->setPassword($password);
-  $user->setRepeatPassword($repeat_password);
-  $user->setEmail($email);
-  $user->save();
-  $message = usersCreateAccount($username, $password, $repeat_password, $email, $_SESSION); 
-  echo $message;
+  $message = $results["message"];
 }
 
   require_once ("../lib/shared/header.php");

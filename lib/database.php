@@ -12,7 +12,6 @@ class Database {
     $data = mysqli_query($dbc, $query);
 
     if (mysqli_num_rows($data) > 1) {
-      error_log("data does not exist");
       return null;
 
     } else if (mysqli_num_rows($data) == 1) {  
@@ -20,7 +19,6 @@ class Database {
       return $row;  
 
     } else {
-      error_log("data does not exist");
       return null;
     } 
   }
@@ -31,5 +29,6 @@ class Database {
 
   public function insertRecord($query){
     $dbc = mysqli_connect('127.0.0.1', 'markie2902', 'burlbus952', 'grocery_list') or die ('Error, could not connect to Database.');
+    $data = mysqli_query($dbc, $query);
   }
 } 
