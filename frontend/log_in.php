@@ -14,27 +14,32 @@ if (isset($_POST["submit"]) && $_POST["submit"] == "Log In") {
   
   } else {
     $user->login($_SESSION);
-    Utils::redirect($values["redirect"], "profile/index.php");
+    Utils::redirect($values["redirect"], "http://" . $_SERVER["HTTP_HOST"] . dirname($_SERVER["PHP_SELF"]) . "profile/index.php");
   }
-
 } else if(isset($_POST["submit"]) && $_POST["submit"] == "Create") {
   $values = Utils::cleanArray($_POST, array("username", "password", "repeat_password", "email", "redirect"), "");
-  $user = User::createNewAccount($values["username"], $values["password"], $values["repeat_password"], $values["email"]);
-
-  if($user->createNewAccount($values["username"], $values["password"], $values["repeat_password"], $values["email"])) { 
+  $result = User::createNewAccount($values["username"], $values["password"], $values["repeat_password"], $values["email"]);
+  
+  if($result["valid"]) { 
+    $user = User::load($values["username"], $values["password"]);
     $user->login($_SESSION);
-    Utils::redirect("", "profile/index.php");
+    Utils::redirect("", "http://" . $_SERVER["HTTP_HOST"] . dirname($_SERVER["PHP_SELF"]) . "profile/index.php");
   } else { 
-    $message = "Page could not be found.";
-    return $message;
+    $message = $result["message"];
   }
+} else {
+  $message = "";
 }
-  //$url =  "http://" . $_SERVER["HTTP_HOST"] . dirname($_SERVER["PHP_SELF"]) . "profile/index.php";
-//} else {
-  $url =  "http://" . $_SERVER["HTTP_HOST"] . dirname($_SERVER["PHP_SELF"]) . "profile/index.php";
+$values = Utils::cleanArray($_GET, array("redirect"), "");
+if (!empty($values['redirect'])) {
+  $hiddenUrlInput = "<input type='hidden' name='redirect' value='" . $values['redirect'] . "'>";
+} else {
+  $hiddenUrlInput = "";
+}
 
+require_once ("../lib/shared/header.php");
+echo $message;
 
-  require_once ("../lib/shared/header.php");
 ?>   
 <div id="forms">
 	<h2>Create Account</h2>
@@ -65,9 +70,7 @@ if (isset($_POST["submit"]) && $_POST["submit"] == "Log In") {
       <input type="password" name="password" value=""><br><br>
       <input type="Submit" name="submit" value="Log In"<br><br><br>
       <a href="retrieve_file.php">Forgot username or password?</a>
-      
-      <!-- this should be in a php if statement-->
-      <input type="hidden" name="redirect" value="<?php echo "$url"; ?>"> 
+      <?php echo $hiddenUrlInput ?>
    </form>
 </p>
 

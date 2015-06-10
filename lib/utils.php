@@ -20,14 +20,14 @@ class Utils {
     return $cleanValues;
   }
 
-  public static function redirect($values, $location) {
+  public static function redirect($values, $defaultURL) {
     
-    if(!empty($values["redirect"])){
-      header("Location: " . $values["redirect"]);
+    if(!empty($redirect)){
+      header("Location: " . $redirect);
     
     } else {
-      $url =  "http://" . $_SERVER["HTTP_HOST"] . dirname($_SERVER["PHP_SELF"]) . $location;
-      header("Location: " .  $url);
+      header("Location: " .  $defaultURL);
     }
+    exit;
   }
 }
