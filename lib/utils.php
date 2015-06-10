@@ -19,4 +19,15 @@ class Utils {
     }
     return $cleanValues;
   }
+
+  public static function redirect($values, $location) {
+    
+    if(!empty($values["redirect"])){
+      header("Location: " . $values["redirect"]);
+    
+    } else {
+      $url =  "http://" . $_SERVER["HTTP_HOST"] . dirname($_SERVER["PHP_SELF"]) . $location;
+      header("Location: " .  $url);
+    }
+  }
 }

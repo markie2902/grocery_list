@@ -288,3 +288,15 @@ class User {
       return $results;
     }    
 }
+    //public static function updateProfile($firstname, $lastname, $gender, $birthdate, $city, $state, $country, $zipcode, &$session) {
+      //$dbc = mysqli_connect('127.0.0.1', 'markie2902', 'burlbus952', 'grocery_list') or die ('Error, could not connect to Database.');
+      //$database = new Database();
+       //$clean_firstname = $database->clean($this->firstname);     
+       //$clean_lastname = $database->clean($this->lastname);     
+       //$clean_gender = $database->clean($this->username);     
+       //$clean_username = $database->clean($this->username);     
+       //$clean_username = $database->clean($this->username);     
+       //$clean_username = $database->clean($this->username);     
+       //$clean_username = $database->clean($this->username);     
+       //$clean_username = $database->clean($this->username);     
+       //$clean_username = $database->clean($this->username);     

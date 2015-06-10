@@ -1,9 +1,9 @@
 <?php
   
-  session_start();
+session_start();
 
-
-  require_once("../../lib/user_profile.php");
+require_once("../../lib/user_profile.php");
+require_once("../../lib/user.php");
 
   if (isset($_SESSION["username"])) {
     echo "<p>Hello, ". $_SESSION["username"] ." ! You can start by editing your profile.</p>";
@@ -25,7 +25,8 @@
   require_once("../../lib/shared/header.php");
   
   $dbc = mysqli_connect('127.0.0.1', 'markie2902', 'burlbus952', 'grocery_list') or die ('Error, could not connect to Database.');
-  $query = "SELECT username, first_name, last_name, gender, birthdate, city, state, country, zipcode FROM create_account WHERE username = '" . $_SESSION['id'] . "'";
+  $query = "SELECT username, first_name, last_name, gender, birthdate, city, state, country, zipcode FROM create_account WHERE username = '" . $_SESSION["id"] . "'";
+  //error_log("username");
   $data = mysqli_query($dbc, $query);
 
     if (mysqli_num_rows($data) == 1) {

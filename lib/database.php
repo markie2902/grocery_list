@@ -23,11 +23,16 @@ class Database {
     } 
   }
   
-  public function updateRecord($query){
+  public function updateRecord($query) {
     $dbc = mysqli_connect('127.0.0.1', 'markie2902', 'burlbus952', 'grocery_list') or die ('Error, could not connect to Database.');
-  }  
+    $data = mysqli_query($dbc, $query);
 
-  public function insertRecord($query){
+    if (mysqli_num_rows($data) > 1) {
+            return null;
+    } else {
+    }      
+  }   
+    public function insertRecord($query){
     $dbc = mysqli_connect('127.0.0.1', 'markie2902', 'burlbus952', 'grocery_list') or die ('Error, could not connect to Database.');
     $data = mysqli_query($dbc, $query);
   }
