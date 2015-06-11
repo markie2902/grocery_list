@@ -28,7 +28,7 @@
 
 $dbc = mysqli_connect('127.0.0.1', 'markie2902', 'burlbus952', 'grocery_list') or die ('Error, could not connect to Database.');
 
-  $query = "SELECT first_name, last_name, gender, birthdate, city, state, country, zipcode FROM create_account WHERE username = '" . $_SESSION['username'] . "'";
+  $query = "SELECT first_name, last_name, gender, birthdate, city, state, country, zipcode FROM user WHERE username = '" . $_SESSION['username'] . "'";
   $data = mysqli_query($dbc, $query);
   $user = mysqli_fetch_array($data); 
   //$user = loadUserData();
