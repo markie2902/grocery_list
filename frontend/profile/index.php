@@ -5,10 +5,23 @@ session_start();
 require_once("../../lib/user_profile.php");
 require_once("../../lib/user.php");
 
-  if (isset($_SESSION["username"])) {
+  if(User::isloggedin($_SESSION)) {
+    $user = User::loadfromID($_SESSION["id"])
+    //$user = new User();  
+    //$user = User->update($_SESSION["id"])
+  // something happens
+    $user->setFirstName($firstname);
+    $user->setLastName($lastname);
+    $user->setGender($gender);
+    $user->setBirthdate($birthdate);
+    $user->setCity($city);
+    $user->setState($state);
+    $user->setCountry($country);
+    $user->setZipcode($zipcode);
+    $user->save();
+
     echo "<p>Hello, ". $_SESSION["username"] ." ! You can start by editing your profile.</p>";
   
-    $dbc = mysqli_connect('127.0.0.1', 'markie2902', 'burlbus952', 'grocery_list');
 
     if (!isset($_POST["username"])) {
       $query = "SELECT username, first_name, last_name, gender, birthdate, city, state, country, zipcode FROM user WHERE username = '" . $_SESSION['username'] . "'"; 
